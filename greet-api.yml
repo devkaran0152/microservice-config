@@ -2,6 +2,10 @@ server:
   port: 9091
 
 spring:
+  application:
+    name: greet-api
+  config:
+    import: "configserver:http://localhost:9093"
   boot:
     admin:
       client:
