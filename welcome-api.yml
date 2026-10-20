@@ -1,11 +1,24 @@
-server:
-  port: 8081
 
 spring:
+  application:
+    name: welcome-api
+
+  config:
+    import: "configserver:http://localhost:9093"
+
   boot:
     admin:
       client:
         url: http://localhost:1111/
+
+  data:
+    redis:
+      url: ${REDIS_URL}
+      connect-timeout: 3s
+      timeout: 3s
+
+server:
+  port: 8081
 
 eureka:
   client:
@@ -16,10 +29,15 @@ management:
   tracing:
     sampling:
       probability: 1.0
-  zipkin:
-    tracing:
-      endpoint: http://localhost:9411/api/v2/spans
+    export:
+      zipkin:
+        endpoint: http://localhost:9411/api/v2/spans
+
   endpoints:
     web:
       exposure:
         include: "*"
+
+  endpoint:
+    health:
+      show-details: always
